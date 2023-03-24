@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AcademiesWebApi.Abstractions\AcademiesWebApi.Abstractions.csproj" />
+    <ProjectReference Include="..\AcademiesWebApi.DataAccess\AcademiesWebApi.DataAccess.csproj" />
+    <ProjectReference Include="..\AcademiesWebApi.Entities\AcademiesWebApi.Entities.csproj" />
+    <ProjectReference Include="..\AcademiesWebApi.Services\AcademiesWebApi.Services.csproj" />
+  </ItemGroup>
+
+</Project>
