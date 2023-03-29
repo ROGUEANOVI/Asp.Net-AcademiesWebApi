@@ -1,11 +1,13 @@
 using AcademiesWebApi.Abstractions;
 using AcademiesWebApi.Application;
+using AcademiesWebApi.Configuration;
 using AcademiesWebApi.DataAccess;
 using AcademiesWebApi.Repository;
 using AcademiesWebApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
@@ -20,9 +22,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Add Configure Connection Database 
-builder.Services.AddDbContext<ApiDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStringAcademiesWebApi"))
-);
+builder.Services.AddDbContext<ApiDbContext>(options => {
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStringAcademiesWebApi"));
+    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+    }
+) ;
 
 builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig"));
 
@@ -56,6 +60,7 @@ builder.Services.AddScoped(typeof(IApplication<>), typeof(Application<>));
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped(typeof(IDbContext<>), typeof(DbContext<>));
 builder.Services.AddScoped(typeof(ITokenHandlerService), typeof(TokenHandlerService));
+builder.Services.AddAutoMapper(typeof(MappingConfig));
 
 var app = builder.Build();
 

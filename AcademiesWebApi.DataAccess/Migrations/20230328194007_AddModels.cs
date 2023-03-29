@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AcademiesWebApi.DataAccess.Migrations
 {
-    public partial class AddIdentity : Migration
+    public partial class AddModels : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -46,6 +46,22 @@ namespace AcademiesWebApi.DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "School",
+                columns: table => new
+                {
+                    SchoolID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
+                    Web = table.Column<string>(type: "varchar(254)", unicode: false, maxLength: 254, nullable: false),
+                    Email = table.Column<string>(type: "varchar(254)", unicode: false, maxLength: 254, nullable: false),
+                    Phone = table.Column<string>(type: "varchar(45)", unicode: false, maxLength: 45, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_School", x => x.SchoolID);
                 });
 
             migrationBuilder.CreateTable(
@@ -154,6 +170,135 @@ namespace AcademiesWebApi.DataAccess.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Student",
+                columns: table => new
+                {
+                    StudentID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
+                    LastName = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
+                    IdType = table.Column<int>(type: "int", unicode: false, nullable: false),
+                    IdNumber = table.Column<string>(type: "varchar(10)", unicode: false, maxLength: 10, nullable: false),
+                    Email = table.Column<string>(type: "varchar(254)", unicode: false, maxLength: 254, nullable: false),
+                    Phone = table.Column<string>(type: "varchar(45)", unicode: false, maxLength: 45, nullable: false),
+                    SchoolID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Student", x => x.StudentID);
+                    table.ForeignKey(
+                        name: "FK_students_schools",
+                        column: x => x.SchoolID,
+                        principalTable: "School",
+                        principalColumn: "SchoolID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Teacher",
+                columns: table => new
+                {
+                    TeacherID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
+                    LastName = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
+                    IdNumber = table.Column<string>(type: "varchar(10)", unicode: false, maxLength: 10, nullable: false),
+                    Email = table.Column<string>(type: "varchar(254)", unicode: false, maxLength: 254, nullable: false),
+                    Phone = table.Column<string>(type: "varchar(45)", unicode: false, maxLength: 45, nullable: false),
+                    schoolID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Teacher", x => x.TeacherID);
+                    table.ForeignKey(
+                        name: "FK_teachers_schools",
+                        column: x => x.schoolID,
+                        principalTable: "School",
+                        principalColumn: "SchoolID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Course",
+                columns: table => new
+                {
+                    CourseID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "text", unicode: false, nullable: false),
+                    TeacherID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Course", x => x.CourseID);
+                    table.ForeignKey(
+                        name: "FK_courses_teachers",
+                        column: x => x.TeacherID,
+                        principalTable: "Teacher",
+                        principalColumn: "TeacherID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Grade",
+                columns: table => new
+                {
+                    GradeID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Qualification = table.Column<double>(type: "float", nullable: false),
+                    StudentID = table.Column<int>(type: "int", nullable: false),
+                    CourseID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Grade", x => x.GradeID);
+                    table.ForeignKey(
+                        name: "FK_grades_courses",
+                        column: x => x.CourseID,
+                        principalTable: "Course",
+                        principalColumn: "CourseID");
+                    table.ForeignKey(
+                        name: "FK_grades_students",
+                        column: x => x.StudentID,
+                        principalTable: "Student",
+                        principalColumn: "StudentID");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StudentCourse",
+                columns: table => new
+                {
+                    StudentCourseID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StudentID = table.Column<int>(type: "int", nullable: false),
+                    CourseID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StudentCourse", x => x.StudentCourseID);
+                    table.ForeignKey(
+                        name: "FK_students_courses_course",
+                        column: x => x.CourseID,
+                        principalTable: "Course",
+                        principalColumn: "CourseID");
+                    table.ForeignKey(
+                        name: "FK_students_courses_student",
+                        column: x => x.StudentID,
+                        principalTable: "Student",
+                        principalColumn: "StudentID");
+                });
+
+            migrationBuilder.InsertData(
+                table: "School",
+                columns: new[] { "SchoolID", "Email", "Name", "Phone", "Web" },
+                values: new object[] { 1, "nsmi@manaure.edu.co", "NSMI", "3459697979", "www.nsmi.com" });
+
+            migrationBuilder.InsertData(
+                table: "School",
+                columns: new[] { "SchoolID", "Email", "Name", "Phone", "Web" },
+                values: new object[] { 2, "misena@sena.edu.co", "SENA CBC", "6704334062", "www.nsmi-cbc.com" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -192,6 +337,41 @@ namespace AcademiesWebApi.DataAccess.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Course_TeacherID",
+                table: "Course",
+                column: "TeacherID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Grade_CourseID",
+                table: "Grade",
+                column: "CourseID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Grade_StudentID",
+                table: "Grade",
+                column: "StudentID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Student_SchoolID",
+                table: "Student",
+                column: "SchoolID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudentCourse_CourseID",
+                table: "StudentCourse",
+                column: "CourseID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudentCourse_StudentID",
+                table: "StudentCourse",
+                column: "StudentID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Teacher_schoolID",
+                table: "Teacher",
+                column: "schoolID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -212,10 +392,28 @@ namespace AcademiesWebApi.DataAccess.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Grade");
+
+            migrationBuilder.DropTable(
+                name: "StudentCourse");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Course");
+
+            migrationBuilder.DropTable(
+                name: "Student");
+
+            migrationBuilder.DropTable(
+                name: "Teacher");
+
+            migrationBuilder.DropTable(
+                name: "School");
         }
     }
 }

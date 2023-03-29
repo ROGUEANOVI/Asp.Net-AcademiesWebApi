@@ -8,12 +8,15 @@ namespace AcademiesWebApi.Abstractions
 {
     public interface ICrud<T>
     {
-        IList<T> GetAll();
+        Task<IList<T>> GetAll();
 
-        T GetById(int id);
+        Task<T> GetById(int id);
 
-        T Save(T entity);
+        Task<T> Insert(T entity);
 
-        void Delete(int id);
+        Task Delete(int id);
+
+        Task Update(T entity);
+
     }
 }

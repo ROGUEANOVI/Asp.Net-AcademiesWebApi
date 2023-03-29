@@ -12,7 +12,7 @@ namespace AcademiesWebApi.Application
     {
     }
 
-    public class Application<T> : IApplication<T> where T: IEntity
+    public class Application<T> : IApplication<T>
     {
         IRepository<T> _repository;
         public Application(IRepository<T> repository)
@@ -20,25 +20,29 @@ namespace AcademiesWebApi.Application
             _repository = repository; 
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            _repository.Delete(id);
+            await _repository.Delete(id);
         }
 
-        public IList<T> GetAll()
+        public async Task<IList<T>> GetAll()
         {
-            return _repository.GetAll();
+            return await _repository.GetAll();
         }
 
-        public T GetById(int id)
+        public async Task<T> GetById(int id)
         {
-            return _repository.GetById(id);
+            return await _repository.GetById(id);
         }
 
-        public T Save(T entity)
+        public async Task<T> Insert(T entity)
         {
-            return _repository.Save(entity);
+            return await _repository.Insert(entity);
         }
 
+        public async Task Update(T entity)
+        {
+            await _repository.Update(entity);
+        }
     }
 }

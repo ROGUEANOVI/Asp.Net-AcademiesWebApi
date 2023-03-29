@@ -1,4 +1,4 @@
-﻿namespace AcademiesWebApi.DTOs
+﻿namespace AcademiesWebApi.DTOs.AuthDTOs
 {
     public class UserLoginResponseDTO
     {

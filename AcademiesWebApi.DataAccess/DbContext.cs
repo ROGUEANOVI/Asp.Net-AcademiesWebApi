@@ -1,4 +1,5 @@
 ﻿using AcademiesWebApi.Abstractions;
+using AcademiesWebApi.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,46 +15,53 @@ namespace AcademiesWebApi.DataAccess
 
     }
 
-    public class DbContext<T> : IDbContext<T> where T : class, IEntity
+    public class DbContext<T> : IDbContext<T> where T : class
     {
         ApiDbContext _dbContext;
         
-        DbSet<T> _items;
+        DbSet<T> _EntitySet;
 
-        //protected ApiDbContext _dbContext;
         public DbContext(ApiDbContext dbContext)
-        {
+        { 
             _dbContext = dbContext;
 
-            _items = dbContext.Set<T>();
+            _EntitySet = dbContext.Set<T>();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            var  entity = _items.Where(e => e.Id.Equals(id)).FirstOrDefault();
-            if (entity != null)
-            {
-                _items.Remove(entity);
-                _dbContext.SaveChanges();
-            }
+            var entity = await _EntitySet.FindAsync(id);
+
+            _EntitySet.Remove(entity);
+            await Save();
         }
 
-        public IList<T> GetAll()
+        public async Task<IList<T>> GetAll()
         {
-            return _items.ToList();
+            return await _EntitySet.ToListAsync();
         }
 
-        public T GetById(int id)
+        public async Task<T> GetById(int id)
         {
-            return _items.Where(e => e.Id.Equals(id)).FirstOrDefault();
+            return await _EntitySet.FindAsync(id);
         }
 
-        public T Save(T entity)
-        {   
-            _items.Add(entity);
-            _dbContext.SaveChanges();
+        public async Task<T> Insert(T entity)
+        {
+            await _EntitySet.AddAsync(entity);
+            await Save();
             return entity;
         }
 
+        public async Task Save()
+        {
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task Update(T entity)
+        {
+            _EntitySet.Update(entity);
+            await Save();
+        }
     }
 }

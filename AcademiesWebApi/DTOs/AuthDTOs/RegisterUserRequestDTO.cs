@@ -1,9 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AcademiesWebApi.DTOs
+namespace AcademiesWebApi.DTOs.AuthDTOs
 {
-    public class UserLoginRequestDTO
+    public class RegisterUserRequestDTO
     {
+        [Required]
+        public string Name { get; set; }
+
         [Required]
         public string Email { get; set; }
 

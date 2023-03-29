@@ -13,17 +13,14 @@ namespace AcademiesWebApi.DataAccess
     {
         public ApiDbContext(DbContextOptions<ApiDbContext> options) : base(options)
         {
-
         }
 
-        public virtual DbSet<FootballTeam> FootballTeam  { get; set; } = null!;
-
-        public virtual DbSet<School> School { get; set; } = null!;
-        public virtual DbSet<Teacher> Teacher { get; set; } = null!;
-        public virtual DbSet<Student> Student { get; set; } = null!;
-        public virtual DbSet<StudentCourse> StudentCourse { get; set; } = null!;
-        public virtual DbSet<Course> Course { get; set; } = null!;
-        public virtual DbSet<Grade> Grade { get; set; } = null!;
+        public virtual DbSet<School> Schools { get; set; } = null!;
+        public virtual DbSet<Teacher> Teachers { get; set; } = null!;
+        public virtual DbSet<Student> Students { get; set; } = null!;
+        public virtual DbSet<StudentCourse> StudentCourses { get; set; } = null!;
+        public virtual DbSet<Course> Courses { get; set; } = null!;
+        public virtual DbSet<Grade> Grades { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,35 +29,56 @@ namespace AcademiesWebApi.DataAccess
                 {
                     entity.ToTable("School");
 
-                    entity.HasKey(p => p.Id);
-                    entity.Property(e => e.Id)
-                            .HasColumnName("id");
+                    entity.HasKey(p => p.SchoolID);
+                    entity.Property(e => e.SchoolID)
+                            .HasColumnName("SchoolID");
 
                     entity.Property(e => e.Name)
-                            .HasColumnName("name")
+                            .HasColumnName("Name")
                             .IsRequired()
                             .HasMaxLength(100)
                             .IsUnicode(false);
 
                     entity.Property(e => e.Web)
-                            .HasColumnName("web")
+                            .HasColumnName("Web")
                             .IsRequired()
                             .HasMaxLength(254)
                             .IsUnicode(false);
 
                     entity.Property(e => e.Email)
-                            .HasColumnName("email")
+                            .HasColumnName("Email")
                             .IsRequired()
                             .HasMaxLength(254)
                             .IsUnicode(false);
 
                     entity.Property(e => e.Phone)
-                            .HasColumnName("phone")
+                            .HasColumnName("Phone")
                             .IsRequired()
                             .HasMaxLength(45)
                             .IsUnicode(false);
+
+                    entity.HasData(
+                         new School()
+                         {
+                             SchoolID = 1,
+                             Name = "NSMI",
+                             Web = "www.nsmi.com",
+                             Email = "nsmi@manaure.edu.co",
+                             Phone = "3459697979"
+                         },
+                         new School()
+                         {
+                             SchoolID = 2,
+                             Name = "SENA CBC",
+                             Web = "www.nsmi-cbc.com",
+                             Email = "misena@sena.edu.co",
+                             Phone = "6704334062"
+                         }
+                    );
                 }
             );
+
+            
             #endregion
 
             #region STUDENT
@@ -68,40 +86,51 @@ namespace AcademiesWebApi.DataAccess
             {
                 entity.ToTable("Student");
 
-                entity.HasKey(e => e.Id);
-                entity.Property(e => e.Id)
-                        .HasColumnName("id");
+                entity.HasKey(e => e.StudentID);
+                entity.Property(e => e.StudentID)
+                        .HasColumnName("StudentID");
 
                 entity.Property(e => e.FirstName)
-                        .HasColumnName("firstName")
+                        .HasColumnName("FirstName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .IsUnicode(false);
 
                 entity.Property(e => e.LastName)
-                        .HasColumnName("lastName")
+                        .HasColumnName("LastName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .IsUnicode(false);
 
+                entity.Property(e => e.IdentificationType)
+                        .HasColumnName("IdType")
+                        .IsRequired()
+                        .IsUnicode(false);
+
+                entity.Property(e => e.IdentificationNumber)
+                        .HasColumnName("IdNumber")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .IsUnicode(false);
+
                 entity.Property(e => e.Email)
-                        .HasColumnName("email")
+                        .HasColumnName("Email")
                         .IsRequired()
                         .HasMaxLength(254)
                         .IsUnicode(false);
 
                 entity.Property(e => e.Phone)
-                        .HasColumnName("phone")
+                        .HasColumnName("Phone")
                         .IsRequired()
                         .HasMaxLength(45)
                         .IsUnicode(false);
 
-                entity.Property(e => e.SchoolId)
-                        .HasColumnName("schoolId");
+                entity.Property(e => e.SchoolID)
+                        .HasColumnName("SchoolID");
 
                 entity.HasOne(e => e.School)
                         .WithMany(e => e.Students)
-                          .HasForeignKey(e => e.SchoolId)
+                          .HasForeignKey(e => e.SchoolID)
                             .HasConstraintName("FK_students_schools");
                 
             });
@@ -112,39 +141,46 @@ namespace AcademiesWebApi.DataAccess
             {
                 entity.ToTable("Teacher");
 
-                entity.HasKey(e => e.Id);
-                entity.Property(e => e.Id)
-                        .HasColumnName("id");
+                entity.HasKey(e => e.TeacherID);
+                entity.Property(e => e.TeacherID)
+                        .HasColumnName("TeacherID");
 
                 entity.Property(e => e.FirstName)
-                        .HasColumnName("firstName")
+                        .HasColumnName("FirstName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .IsUnicode(false);
 
                 entity.Property(e => e.LastName)
-                        .HasColumnName("lastName")
+                        .HasColumnName("LastName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .IsUnicode(false);
 
+                entity.Property(e => e.IdentificationNumber)
+                        .HasColumnName("IdNumber")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .IsUnicode(false);
+
                 entity.Property(e => e.Email)
-                        .HasColumnName("email")
+                        .HasColumnName("Email")
                         .IsRequired()
                         .HasMaxLength(254)
                         .IsUnicode(false);
 
                 entity.Property(e => e.Phone)
-                        .HasColumnName("phone")
+                        .HasColumnName("Phone")
                         .IsRequired()
                         .HasMaxLength(45)
                         .IsUnicode(false);
 
-                entity.Property(e => e.SchoolId).HasColumnName("schoolId");
+                entity.Property(e => e.SchoolID)
+                        .HasColumnName("schoolID");
 
                 entity.HasOne(e => e.School)
                         .WithMany(e => e.Teachers)
-                          .HasForeignKey(e => e.SchoolId)
+                          .HasForeignKey(e => e.SchoolID)
                             .HasConstraintName("FK_teachers_schools");
             });
             #endregion
@@ -154,28 +190,28 @@ namespace AcademiesWebApi.DataAccess
             {
                 entity.ToTable("Course");
 
-                entity.HasKey(e => e.Id);
-                entity.Property(e => e.Id)
-                        .HasColumnName("id");
+                entity.HasKey(e => e.CourseID);
+                entity.Property(e => e.CourseID)
+                        .HasColumnName("CourseID");
 
                 entity.Property(e => e.Name)
-                        .HasColumnName("name")
+                        .HasColumnName("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .IsUnicode(false);
 
                 entity.Property(e => e.Description)
-                        .HasColumnName("description")
+                        .HasColumnName("Description")
                         .HasColumnType("text")
                         .IsRequired()
                         .IsUnicode(false);
 
-                entity.Property(e => e.TeacherId)
-                        .HasColumnName("teacherId");
+                entity.Property(e => e.TeacherID)
+                        .HasColumnName("TeacherID");
 
                 entity.HasOne(e => e.Teacher)
                         .WithMany(e => e.Courses)
-                          .HasForeignKey(e => e.TeacherId)
+                          .HasForeignKey(e => e.TeacherID)
                             .HasConstraintName("FK_courses_teachers");
             });
             #endregion
@@ -185,25 +221,25 @@ namespace AcademiesWebApi.DataAccess
             {
                 entity.ToTable("StudentCourse");
 
-                entity.HasKey(e => e.Id);
-                entity.Property(e => e.Id)
-                        .HasColumnName("id");
+                entity.HasKey(e => e.StudentCourseID);
+                entity.Property(e => e.StudentCourseID)
+                        .HasColumnName("StudentCourseID");
 
-                entity.Property(e => e.CourseId)
-                        .HasColumnName("courseId");
+                entity.Property(e => e.CourseID)
+                        .HasColumnName("CourseID");
 
-                entity.Property(e => e.StudentId)
-                        .HasColumnName("studentId");
+                entity.Property(e => e.StudentID)
+                        .HasColumnName("StudentID");
 
                 entity.HasOne(e => e.Course)
                         .WithMany(e => e.StudentsCourses)
-                          .HasForeignKey(e => e.CourseId)
+                          .HasForeignKey(e => e.CourseID)
                             .OnDelete(DeleteBehavior.ClientSetNull)
                               .HasConstraintName("FK_students_courses_course");
 
                 entity.HasOne(e => e.Student)
                         .WithMany(e => e.StudentsCourses)
-                          .HasForeignKey(e => e.StudentId)
+                          .HasForeignKey(e => e.StudentID)
                             .OnDelete(DeleteBehavior.ClientSetNull)
                               .HasConstraintName("FK_students_courses_student");
             });
@@ -214,35 +250,35 @@ namespace AcademiesWebApi.DataAccess
             {
                 entity.ToTable("Grade");
 
-                entity.HasKey(e => e.Id);
-                entity.Property(e => e.Id)
-                        .HasColumnName("id");
+                entity.HasKey(e => e.GradeID);
+                entity.Property(e => e.GradeID)
+                        .HasColumnName("GradeID");
 
                 entity.Property(e => e.Qualification)
-                        .HasColumnName("qualification");
+                        .HasColumnName("Qualification");
 
-                entity.Property(e => e.StudentId)
-                        .HasColumnName("studentId");
+                entity.Property(e => e.StudentID)
+                        .HasColumnName("StudentID");
                 
-                entity.Property(e => e.CourseId)
-                        .HasColumnName("courseId");
+                entity.Property(e => e.CourseID)
+                        .HasColumnName("CourseID");
 
                 entity.HasOne(d => d.Course)
                         .WithMany(p => p.Grades)
-                          .HasForeignKey(d => d.CourseId)
+                          .HasForeignKey(d => d.CourseID)
                             .OnDelete(DeleteBehavior.ClientSetNull)
                               .HasConstraintName("FK_grades_courses");
 
                 entity.HasOne(d => d.Student)
                         .WithMany(p => p.Grades)
-                          .HasForeignKey(d => d.StudentId)
+                          .HasForeignKey(d => d.StudentID)
                             .OnDelete(DeleteBehavior.ClientSetNull)
                               .HasConstraintName("FK_grades_students");
             });
             #endregion
 
 
-            modelBuilder.Ignore<Entity>();
+            //modelBuilder.Ignore<Entity<>>();
 
             OnModelCreatingPartial(modelBuilder);
 

@@ -1,7 +1,6 @@
 ﻿using AcademiesWebApi.Configuration;
-using AcademiesWebApi.DTOs;
+using AcademiesWebApi.DTOs.AuthDTOs;
 using AcademiesWebApi.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 

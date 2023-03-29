@@ -8,7 +8,7 @@ namespace AcademiesWebApi.Entities
 {
     public class School
     {
-        public int Id { get; set; }
+        public int SchoolID { get; set; }
         public string Name { get; set; } = null!;
         public string Web { get; set; } = null!;
         public string Email { get; set; } = null!;

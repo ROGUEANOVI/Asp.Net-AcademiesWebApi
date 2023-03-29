@@ -24,251 +24,264 @@ namespace AcademiesWebApi.DataAccess.Migrations
 
             modelBuilder.Entity("AcademiesWebApi.Entities.Course", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CourseID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("CourseID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CourseID"), 1L, 1);
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .IsUnicode(false)
                         .HasColumnType("text")
-                        .HasColumnName("description");
+                        .HasColumnName("Description");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .IsUnicode(false)
                         .HasColumnType("varchar(100)")
-                        .HasColumnName("name");
+                        .HasColumnName("Name");
 
-                    b.Property<int>("TeacherId")
+                    b.Property<int>("TeacherID")
                         .HasColumnType("int")
-                        .HasColumnName("teacherId");
+                        .HasColumnName("TeacherID");
 
-                    b.HasKey("Id");
+                    b.HasKey("CourseID");
 
-                    b.HasIndex("TeacherId");
+                    b.HasIndex("TeacherID");
 
                     b.ToTable("Course", (string)null);
                 });
 
-            modelBuilder.Entity("AcademiesWebApi.Entities.FootballTeam", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Manager")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Score")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FootballTeam");
-                });
-
             modelBuilder.Entity("AcademiesWebApi.Entities.Grade", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("GradeID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("GradeID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GradeID"), 1L, 1);
 
-                    b.Property<int>("CourseId")
+                    b.Property<int>("CourseID")
                         .HasColumnType("int")
-                        .HasColumnName("courseId");
+                        .HasColumnName("CourseID");
 
                     b.Property<double>("Qualification")
                         .HasColumnType("float")
-                        .HasColumnName("qualification");
+                        .HasColumnName("Qualification");
 
-                    b.Property<int>("StudentId")
+                    b.Property<int>("StudentID")
                         .HasColumnType("int")
-                        .HasColumnName("studentId");
+                        .HasColumnName("StudentID");
 
-                    b.HasKey("Id");
+                    b.HasKey("GradeID");
 
-                    b.HasIndex("CourseId");
+                    b.HasIndex("CourseID");
 
-                    b.HasIndex("StudentId");
+                    b.HasIndex("StudentID");
 
                     b.ToTable("Grade", (string)null);
                 });
 
             modelBuilder.Entity("AcademiesWebApi.Entities.School", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("SchoolID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("SchoolID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SchoolID"), 1L, 1);
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(254)
                         .IsUnicode(false)
                         .HasColumnType("varchar(254)")
-                        .HasColumnName("email");
+                        .HasColumnName("Email");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .IsUnicode(false)
                         .HasColumnType("varchar(100)")
-                        .HasColumnName("name");
+                        .HasColumnName("Name");
 
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasMaxLength(45)
                         .IsUnicode(false)
                         .HasColumnType("varchar(45)")
-                        .HasColumnName("phone");
+                        .HasColumnName("Phone");
 
                     b.Property<string>("Web")
                         .IsRequired()
                         .HasMaxLength(254)
                         .IsUnicode(false)
                         .HasColumnType("varchar(254)")
-                        .HasColumnName("web");
+                        .HasColumnName("Web");
 
-                    b.HasKey("Id");
+                    b.HasKey("SchoolID");
 
                     b.ToTable("School", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            SchoolID = 1,
+                            Email = "nsmi@manaure.edu.co",
+                            Name = "NSMI",
+                            Phone = "3459697979",
+                            Web = "www.nsmi.com"
+                        },
+                        new
+                        {
+                            SchoolID = 2,
+                            Email = "misena@sena.edu.co",
+                            Name = "SENA CBC",
+                            Phone = "6704334062",
+                            Web = "www.nsmi-cbc.com"
+                        });
                 });
 
             modelBuilder.Entity("AcademiesWebApi.Entities.Student", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("StudentID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("StudentID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StudentID"), 1L, 1);
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(254)
                         .IsUnicode(false)
                         .HasColumnType("varchar(254)")
-                        .HasColumnName("email");
+                        .HasColumnName("Email");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .IsUnicode(false)
                         .HasColumnType("varchar(100)")
-                        .HasColumnName("firstName");
+                        .HasColumnName("FirstName");
+
+                    b.Property<string>("IdentificationNumber")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(10)")
+                        .HasColumnName("IdNumber");
+
+                    b.Property<int>("IdentificationType")
+                        .IsUnicode(false)
+                        .HasColumnType("int")
+                        .HasColumnName("IdType");
 
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .IsUnicode(false)
                         .HasColumnType("varchar(100)")
-                        .HasColumnName("lastName");
+                        .HasColumnName("LastName");
 
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasMaxLength(45)
                         .IsUnicode(false)
                         .HasColumnType("varchar(45)")
-                        .HasColumnName("phone");
+                        .HasColumnName("Phone");
 
-                    b.Property<int>("SchoolId")
+                    b.Property<int>("SchoolID")
                         .HasColumnType("int")
-                        .HasColumnName("schoolId");
+                        .HasColumnName("SchoolID");
 
-                    b.HasKey("Id");
+                    b.HasKey("StudentID");
 
-                    b.HasIndex("SchoolId");
+                    b.HasIndex("SchoolID");
 
                     b.ToTable("Student", (string)null);
                 });
 
             modelBuilder.Entity("AcademiesWebApi.Entities.StudentCourse", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("StudentCourseID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("StudentCourseID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StudentCourseID"), 1L, 1);
 
-                    b.Property<int>("CourseId")
+                    b.Property<int>("CourseID")
                         .HasColumnType("int")
-                        .HasColumnName("courseId");
+                        .HasColumnName("CourseID");
 
-                    b.Property<int>("StudentId")
+                    b.Property<int>("StudentID")
                         .HasColumnType("int")
-                        .HasColumnName("studentId");
+                        .HasColumnName("StudentID");
 
-                    b.HasKey("Id");
+                    b.HasKey("StudentCourseID");
 
-                    b.HasIndex("CourseId");
+                    b.HasIndex("CourseID");
 
-                    b.HasIndex("StudentId");
+                    b.HasIndex("StudentID");
 
                     b.ToTable("StudentCourse", (string)null);
                 });
 
             modelBuilder.Entity("AcademiesWebApi.Entities.Teacher", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("TeacherID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("TeacherID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TeacherID"), 1L, 1);
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(254)
                         .IsUnicode(false)
                         .HasColumnType("varchar(254)")
-                        .HasColumnName("email");
+                        .HasColumnName("Email");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .IsUnicode(false)
                         .HasColumnType("varchar(100)")
-                        .HasColumnName("firstName");
+                        .HasColumnName("FirstName");
+
+                    b.Property<string>("IdentificationNumber")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(10)")
+                        .HasColumnName("IdNumber");
 
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .IsUnicode(false)
                         .HasColumnType("varchar(100)")
-                        .HasColumnName("lastName");
+                        .HasColumnName("LastName");
 
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasMaxLength(45)
                         .IsUnicode(false)
                         .HasColumnType("varchar(45)")
-                        .HasColumnName("phone");
+                        .HasColumnName("Phone");
 
-                    b.Property<int>("SchoolId")
+                    b.Property<int>("SchoolID")
                         .HasColumnType("int")
-                        .HasColumnName("schoolId");
+                        .HasColumnName("schoolID");
 
-                    b.HasKey("Id");
+                    b.HasKey("TeacherID");
 
-                    b.HasIndex("SchoolId");
+                    b.HasIndex("SchoolID");
 
                     b.ToTable("Teacher", (string)null);
                 });
@@ -479,7 +492,7 @@ namespace AcademiesWebApi.DataAccess.Migrations
                 {
                     b.HasOne("AcademiesWebApi.Entities.Teacher", "Teacher")
                         .WithMany("Courses")
-                        .HasForeignKey("TeacherId")
+                        .HasForeignKey("TeacherID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_courses_teachers");
@@ -491,13 +504,13 @@ namespace AcademiesWebApi.DataAccess.Migrations
                 {
                     b.HasOne("AcademiesWebApi.Entities.Course", "Course")
                         .WithMany("Grades")
-                        .HasForeignKey("CourseId")
+                        .HasForeignKey("CourseID")
                         .IsRequired()
                         .HasConstraintName("FK_grades_courses");
 
                     b.HasOne("AcademiesWebApi.Entities.Student", "Student")
                         .WithMany("Grades")
-                        .HasForeignKey("StudentId")
+                        .HasForeignKey("StudentID")
                         .IsRequired()
                         .HasConstraintName("FK_grades_students");
 
@@ -510,7 +523,7 @@ namespace AcademiesWebApi.DataAccess.Migrations
                 {
                     b.HasOne("AcademiesWebApi.Entities.School", "School")
                         .WithMany("Students")
-                        .HasForeignKey("SchoolId")
+                        .HasForeignKey("SchoolID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_students_schools");
@@ -522,13 +535,13 @@ namespace AcademiesWebApi.DataAccess.Migrations
                 {
                     b.HasOne("AcademiesWebApi.Entities.Course", "Course")
                         .WithMany("StudentsCourses")
-                        .HasForeignKey("CourseId")
+                        .HasForeignKey("CourseID")
                         .IsRequired()
                         .HasConstraintName("FK_students_courses_course");
 
                     b.HasOne("AcademiesWebApi.Entities.Student", "Student")
                         .WithMany("StudentsCourses")
-                        .HasForeignKey("StudentId")
+                        .HasForeignKey("StudentID")
                         .IsRequired()
                         .HasConstraintName("FK_students_courses_student");
 
@@ -541,7 +554,7 @@ namespace AcademiesWebApi.DataAccess.Migrations
                 {
                     b.HasOne("AcademiesWebApi.Entities.School", "School")
                         .WithMany("Teachers")
-                        .HasForeignKey("SchoolId")
+                        .HasForeignKey("SchoolID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_teachers_schools");
